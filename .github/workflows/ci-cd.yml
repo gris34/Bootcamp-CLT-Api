@@ -39,8 +39,8 @@ jobs:
 
       - name: Build and Push image
         run: |
-          docker build -t gris34/bootcampclt-api:${{ steps.meta.outputs.tag }} .
-          docker push gris34/bootcampclt-api:${{ steps.meta.outputs.tag }}
+          docker build -t gris24/bootcampclt-api:${{ steps.meta.outputs.tag }} .
+          docker push gris24/bootcampclt-api:${{ steps.meta.outputs.tag }}
 
   cd:
     needs: ci

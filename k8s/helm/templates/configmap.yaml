@@ -1,0 +1,11 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-env
+data:
+  ASPNETCORE_ENVIRONMENT: "Development"
+  ASPNETCORE_URLS: "http://+:{{ .Values.app.containerPort }}"
+  Application__Name: "{{ .Values.app.applicationName }}"
+  Serilog__WriteTo__1__Name: "Async"
+  Serilog__WriteTo__1__Args__configure__0__Name: "Seq"
+  Serilog__WriteTo__1__Args__configure__0__Args__serverUrl: "http://{{ .Values.seq.host }}:{{ .Values.seq.port }}"

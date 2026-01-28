@@ -2,6 +2,7 @@ using ApiBootcampCLT.Aplication.Query.GetProducts;
 using ApiBootcampCLT.Infraestructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Host.UseSerilog((ctx, services, lc) =>
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog();
+
+builder.Services.AddProblemDetails();
 
 // Add services to the container.
 builder.Services.AddDbContext<PostgresDbContext>(options =>
@@ -33,6 +36,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+app.UseExceptionHandler();
 
 app.UseSerilogRequestLogging();
 
@@ -47,5 +51,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseHttpMetrics();  
+app.MapMetrics("/metrics");
 app.MapControllers();
 app.Run();
